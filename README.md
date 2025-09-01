@@ -1,12 +1,53 @@
-# React + Vite
+# 🌍 Earthquake Visualizer  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application that visualizes real-time earthquake data from the **USGS Earthquake API** on an interactive map using **React Leaflet**.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features  
 
-## Expanding the ESLint configuration
+- 📡 **Live Data** – Fetches earthquake data from [USGS](https://earthquake.usgs.gov/).  
+- 🗺️ **Interactive Map** – Displays earthquakes on a world map with zoom and pan support.  
+- 🎨 **Magnitude-based Styling** – Circle markers are color-coded and scaled by magnitude.  
+- 🔍 **Auto-Fit Bounds** – Map auto-adjusts to show all earthquakes in the current dataset.  
+- 📊 **Info Panel** – Displays statistics (total quakes, strongest quake, significant events).  
+- 📖 **Legend** – Magnitude scale legend for quick interpretation.  
+- 📱 **Responsive UI** – Mobile-friendly navbar with filter controls.  
+- 🌊 **Tsunami Alerts** – Highlights events that triggered tsunami warnings.  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack  
+
+- **React** (with hooks)  
+- **Vite** (fast bundler)  
+- **React Leaflet + Leaflet** (maps & markers)  
+- **Tailwind CSS** (styling)  
+
+---
+
+## 📷 Screenshots  
+
+- **Map with Earthquakes** (circle markers sized & colored by magnitude)  
+- **Info Panel & Legend** (bottom corners)  
+- **Navbar with Filters** (time window + magnitude range)
+- <img width="1918" height="972" alt="image" src="https://github.com/user-attachments/assets/63ffc5b8-0a35-4564-a35a-83dbe4648597" />
+
+
+---
+
+## ⚡ Installation & Setup  
+
+1. Clone the repo:  
+   ```sh
+   git clone https://github.com/harish-pasupuleti/Earthquake-Visualizer.git
+   cd Earthquake-Visualizer
+
+2.Install dependencies:
+```sh
+npm install
+```
+
+3.Run the app locally:
+```sh
+npm run dev
