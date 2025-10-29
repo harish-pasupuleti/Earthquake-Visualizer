@@ -1,5 +1,97 @@
 import React, { useState } from "react";
 
+const TimeWindowSelector = ({ value, onChange, variant = "desktop" }) => {
+  const baseClasses =
+    "rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200";
+
+  return (
+    <div
+      className={`${
+        variant === "desktop"
+          ? "flex items-center space-x-3 bg-white/10 px-4 py-2 backdrop-blur-sm"
+          : "flex flex-col space-y-2"
+      }`}
+    >
+      <label
+        className={`font-semibold ${
+          variant === "desktop" ? "text-purple-100" : "text-blue-100"
+        }`}
+      >
+        Time {variant === "mobile" && "Window"}:
+      </label>
+
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`bg-white text-gray-800 shadow-sm hover:shadow-md ${
+          variant === "desktop"
+            ? `${baseClasses} px-3 py-1.5`
+            : `${baseClasses} px-3 py-2.5 focus:ring-blue-400`
+        }`}
+      >
+        <option value="day">Past Day</option>
+        <option value="week">Past Week</option>
+        <option value="custom">Past Month</option>
+      </select>
+    </div>
+  );
+};
+
+const MagnitudeSlider = ({ value, onChange, variant = "desktop" }) => {
+  return (
+    <div
+      className={`${
+        variant === "desktop"
+          ? "flex items-center space-x-3 bg-white/10 px-4 py-2 backdrop-blur-sm"
+          : "flex flex-col space-y-3"
+      }`}
+    >
+      <label
+        className={`font-semibold ${
+          variant === "desktop" ? "text-purple-100" : "text-blue-100"
+        }`}
+      >
+        {variant === "desktop"
+          ? "Min Mag:"
+          : `Minimum Magnitude: `}
+        {variant === "mobile" && (
+          <span className="font-bold text-white">{value}</span>
+        )}
+      </label>
+
+      <div
+        className={`${
+          variant === "desktop" ? "flex items-center space-x-2" : "flex items-center space-x-3"
+        }`}
+      >
+        {variant === "mobile" && (
+          <span className="text-sm text-blue-200">0</span>
+        )}
+        <input
+          type="range"
+          min="0"
+          max="10"
+          step="0.1"
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className={`slider ${
+            variant === "desktop"
+              ? "w-24 h-2 bg-purple-300"
+              : "flex-1 h-3 bg-blue-300"
+          } rounded-lg appearance-none cursor-pointer`}
+        />
+        {variant === "desktop" ? (
+          <span className="font-bold text-white bg-purple-800 px-2 py-1 rounded-md min-w-[2.5rem] text-center">
+            {value}
+          </span>
+        ) : (
+          <span className="text-sm text-blue-200">10</span>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default function Navbar({ timeWindow, setTimeWindow, magnitude, setMagnitude }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -12,7 +104,7 @@ export default function Navbar({ timeWindow, setTimeWindow, magnitude, setMagnit
             🌍 Earthquake Visualizer
           </div>
 
-          {/* Toggle button (mobile) */}
+          {/* Toggle (mobile) */}
           <div className="sm:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -22,80 +114,27 @@ export default function Navbar({ timeWindow, setTimeWindow, magnitude, setMagnit
             </button>
           </div>
 
-          {/* Menu (desktop) */}
+          {/* Desktop Menu */}
           <div className="hidden sm:flex sm:space-x-8 sm:items-center">
-            {/* Time window selector */}
-            <div className="flex items-center space-x-3 bg-white/10 rounded-lg px-4 py-2 backdrop-blur-sm">
-              <label className="font-semibold text-purple-100">Time:</label>
-              <select
-                value={timeWindow}
-                onChange={(e) => setTimeWindow(e.target.value)}
-                className="text-gray-800 bg-white rounded-md px-3 py-1.5 font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 hover:shadow-md"
-              >
-                <option value="day">Past Day</option>
-                <option value="week">Past Week</option>
-                <option value="custom">Past Month</option>
-              </select>
-            </div>
-
-            {/* Magnitude slider */}
-            <div className="flex items-center space-x-3 bg-white/10 rounded-lg px-4 py-2 backdrop-blur-sm">
-              <label className="font-semibold text-purple-100 whitespace-nowrap">Min Mag:</label>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  step="0.1"
-                  value={magnitude}
-                  onChange={(e) => setMagnitude(Number(e.target.value))}
-                  className="w-24 h-2 bg-purple-300 rounded-lg appearance-none cursor-pointer slider"
-                />
-                <span className="font-bold text-white bg-purple-800 px-2 py-1 rounded-md min-w-[2.5rem] text-center">
-                  {magnitude}
-                </span>
-              </div>
-            </div>
+            <TimeWindowSelector value={timeWindow} onChange={setTimeWindow} />
+            <MagnitudeSlider value={magnitude} onChange={setMagnitude} />
           </div>
         </div>
       </div>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile Dropdown */}
       {menuOpen && (
         <div className="sm:hidden px-4 pb-6 space-y-6 bg-gradient-to-b from-slate-800 to-slate-900 shadow-inner">
-          {/* Time window selector */}
-          <div className="flex flex-col space-y-2">
-            <label className="font-semibold text-blue-100">Time Window:</label>
-            <select
-              value={timeWindow}
-              onChange={(e) => setTimeWindow(e.target.value)}
-              className="text-gray-800 bg-white rounded-lg px-3 py-2.5 font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200"
-            >
-              <option value="day">Past Day</option>
-              <option value="week">Past Week</option>
-              <option value="custom">Custom</option>
-            </select>
-          </div>
-
-          {/* Magnitude slider */}
-          <div className="flex flex-col space-y-3">
-            <label className="font-semibold text-blue-100">
-              Minimum Magnitude: <span className="font-bold text-white">{magnitude}</span>
-            </label>
-            <div className="flex items-center space-x-3">
-              <span className="text-sm text-blue-200">0</span>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                step="0.1"
-                value={magnitude}
-                onChange={(e) => setMagnitude(Number(e.target.value))}
-                className="flex-1 h-3 bg-blue-300 rounded-lg appearance-none cursor-pointer slider"
-              />
-              <span className="text-sm text-blue-200">10</span>
-            </div>
-          </div>
+          <TimeWindowSelector
+            value={timeWindow}
+            onChange={setTimeWindow}
+            variant="mobile"
+          />
+          <MagnitudeSlider
+            value={magnitude}
+            onChange={setMagnitude}
+            variant="mobile"
+          />
         </div>
       )}
 
@@ -111,12 +150,10 @@ export default function Navbar({ timeWindow, setTimeWindow, magnitude, setMagnit
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           transition: all 0.2s ease;
         }
-        
         .slider::-webkit-slider-thumb:hover {
           transform: scale(1.1);
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-        
         .slider::-moz-range-thumb {
           width: 20px;
           height: 20px;

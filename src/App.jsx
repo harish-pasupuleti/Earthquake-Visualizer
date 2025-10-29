@@ -13,20 +13,16 @@ function App() {
   const [magnitude, setMagnitude] = useState(0);
   
   // Generate API URL based on navbar selections
-  const getApiUrl = (timeWindow) => {
-    const baseUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_";
-    switch (timeWindow) {
-      case "day":
-        return `${baseUrl}day.geojson`;
-      case "week":
-        return `${baseUrl}week.geojson`;
-      case "custom":
-        // For now, default to month - you can extend this later
-        return `${baseUrl}month.geojson`;
-      default:
-        return `${baseUrl}day.geojson`;
-    }
+  const getApiUrl = (timeWindow = "day") => {
+  const baseUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_";
+  const endpoints = {
+    day: `${baseUrl}day.geojson`,
+    week: `${baseUrl}week.geojson`,
+    custom: `${baseUrl}month.geojson`,
   };
+  return endpoints[timeWindow] || endpoints.day;
+};
+
 
   useEffect(() => {
     const fetchEarthquakes = async () => {
